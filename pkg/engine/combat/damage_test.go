@@ -27,6 +27,35 @@ func TestBaseDamageByATK(t *testing.T) {
 	assert.Equal(t, 50.0, result)
 }
 
+func TestBaseDamageByDEF(t *testing.T) {
+	hit := &info.Hit{
+		Attacker:   mock.NewEmptyStats(1),
+		Defender:   mock.NewEmptyStats(2),
+		BaseDamage: info.DamageMap{model.DamageFormula_BY_DEF: 0.5},
+		AttackType: model.AttackType_NORMAL,
+		DamageType: model.DamageType_FIRE,
+		HitRatio:   1.0,
+	}
+	hit.Attacker.AddProperty(prop.DEFBase, 100.0)
+	result := baseDamage(hit)
+
+	assert.Equal(t, 50.0, result)
+}
+func TestBaseDamageByHP(t *testing.T) {
+	hit := &info.Hit{
+		Attacker:   mock.NewEmptyStats(1),
+		Defender:   mock.NewEmptyStats(2),
+		BaseDamage: info.DamageMap{model.DamageFormula_BY_MAX_HP: 0.5},
+		AttackType: model.AttackType_NORMAL,
+		DamageType: model.DamageType_FIRE,
+		HitRatio:   1.0,
+	}
+	hit.Attacker.AddProperty(prop.HPBase, 100.0)
+	result := baseDamage(hit)
+
+	assert.Equal(t, 50.0, result)
+}
+
 func TestCritCheckNormal(t *testing.T) {
 	rdm := rand.New(rand.NewSource(1))
 	hit := &info.Hit{
