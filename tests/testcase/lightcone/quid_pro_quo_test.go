@@ -15,20 +15,21 @@ type QPQTest struct {
 	teststub.Stub
 }
 
-func TestBasicTest(t *testing.T) {
+func TestQPQTest(t *testing.T) {
 	suite.Run(t, new(QPQTest))
 }
 
+// Basic Testcase for checking that 8 energy gets added to a char when holder's turn starts
 func (t *QPQTest) Test_EnergyAdd() {
 	dummyChar := testchar.DummyChar()
-	dummyChar.Cone = testcone.QuidProQuo()
+	dummyChar.LightCone = testcone.QuidProQuo()
 	t.Characters.ResetCharacters()
 	t.Characters.AddCharacter(testchar.DanHung())
 	t.Characters.AddCharacter(dummyChar)
 	t.SetAutoRun(false)
 	t.SetAutoContinue(false)
 	t.StartSimulation()
-	dummy := t.Characters.GetCharacterID(1)
+	dummy := t.Characters.GetCharacterTargetID(1)
 	t.NextTurn(dummy)
 	t.Expect(turnstart.ExpectFor(), turnstart.CurrentTurnIs(dummy))
 	t.Continue()
